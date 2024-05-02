@@ -63,8 +63,9 @@ class _SignInPageState extends State<SignInPage> with ValidationMixin {
                 validator: validatePassword,
               ),
               const SizedBox(height: 20.0),
-              const AuthGradientButton(
+              AuthGradientButton(
                 text: 'Sign In',
+                onPressed: () {},
               ),
               const SizedBox(height: 20.0),
               RichText(

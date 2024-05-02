@@ -1,10 +1,12 @@
 // Flutter imports:
+import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter/gestures.dart';
 
 // Project imports:
 import 'package:blog_app/common.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_field.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_gradient_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -73,8 +75,19 @@ class _SignUpPageState extends State<SignUpPage> with ValidationMixin {
                 validator: validatePassword,
               ),
               const SizedBox(height: 20.0),
-              const AuthGradientButton(
+              AuthGradientButton(
                 text: 'Sign Up',
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    context.read<AuthBloc>().add(
+                          AuthSignUp(
+                            name: _nameController.text.trim(),
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                          ),
+                        );
+                  }
+                },
               ),
               const SizedBox(height: 20.0),
               RichText(

@@ -3,17 +3,23 @@ import 'package:blog_app/common.dart';
 
 mixin ValidationMixin {
   String? validateName(String? value) {
-    if (value.isNullOrEmpty) {}
-    return AppStrings.pleaseEnterTheName;
+    if (value.isNullOrEmpty) {
+      return AppStrings.pleaseEnterTheName;
+    }
+    return null;
   }
 
   String? validateEmail(String? value) {
-    if (value.isNullOrEmpty) {}
-    return AppStrings.pleaseEnterTheEmail;
+    if (value.isNullOrEmpty) {
+      return AppStrings.pleaseEnterTheEmail;
+    }
+    return null;
   }
 
   String? validatePassword(String? value) {
-    if (value.isNullOrEmpty) {}
-    return AppStrings.pleaseEnterThePassword;
+    if (value.isNullOrEmpty) {
+      return AppStrings.pleaseEnterThePassword;
+    }
+    return null;
   }
 }

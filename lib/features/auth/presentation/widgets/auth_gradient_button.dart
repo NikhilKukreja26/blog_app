@@ -2,9 +2,14 @@
 import 'package:blog_app/common.dart';
 
 class AuthGradientButton extends StatelessWidget {
-  const AuthGradientButton({super.key, required this.text});
+  const AuthGradientButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+  });
 
   final String text;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class AuthGradientButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(7.0),
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           fixedSize: const Size(395.0, 55.0),
           backgroundColor: AppPalette.transparentColor,
