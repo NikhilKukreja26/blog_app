@@ -1,6 +1,8 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+// Project imports:
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
 
 part 'auth_event.dart';
