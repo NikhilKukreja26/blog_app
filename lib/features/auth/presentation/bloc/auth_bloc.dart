@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
+import 'package:blog_app/features/auth/domain/entities/user.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
 
 part 'auth_event.dart';
@@ -38,10 +39,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             error: failure.message,
           ),
         ),
-        (uid) => emit(
+        (user) => emit(
           state.copyWith(
             status: AuthStatus.success,
-            uid: uid,
+            user: user,
           ),
         ),
       );

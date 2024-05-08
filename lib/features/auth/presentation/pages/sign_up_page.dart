@@ -77,18 +77,37 @@ class _SignUpPageState extends State<SignUpPage> with ValidationMixin {
                 validator: validatePassword,
               ),
               const SizedBox(height: 20.0),
-              AuthGradientButton(
-                text: 'Sign Up',
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    context.read<AuthBloc>().add(
-                          AuthSignUp(
-                            name: _nameController.text.trim(),
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                          ),
-                        );
+              BlocConsumer<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state.status == AuthStatus.failure) {
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        SnackBar(
+                          content: Text(state.error ?? ''),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
                   }
+                },
+                builder: (context, state) {
+                  if (state.status == AuthStatus.loading) {
+                    return const CircularProgressIndicator.adaptive();
+                  }
+                  return AuthGradientButton(
+                    text: 'Sign Up',
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        context.read<AuthBloc>().add(
+                              AuthSignUp(
+                                name: _nameController.text.trim(),
+                                email: _emailController.text.trim(),
+                                password: _passwordController.text.trim(),
+                              ),
+                            );
+                      }
+                    },
+                  );
                 },
               ),
               const SizedBox(height: 20.0),
@@ -118,3 +137,7 @@ class _SignUpPageState extends State<SignUpPage> with ValidationMixin {
     );
   }
 }
+
+
+// What is foreign key?
+// A foreign is a column in database that is linked to another column in a different table
