@@ -40,6 +40,12 @@ class _SignUpPageState extends State<SignUpPage> with ValidationMixin {
     _passwordController.dispose();
   }
 
+  void _clearControllers() {
+    _nameController.clear();
+    _emailController.clear();
+    _passwordController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,14 +86,9 @@ class _SignUpPageState extends State<SignUpPage> with ValidationMixin {
               BlocConsumer<AuthBloc, AuthState>(
                 listener: (context, state) {
                   if (state.status == AuthStatus.failure) {
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(
-                        SnackBar(
-                          content: Text(state.error ?? ''),
-                          behavior: SnackBarBehavior.floating,
-                        ),
-                      );
+                    context.showMaterialSnackBar(state.error ?? '');
+                  } else if (state.status == AuthStatus.success) {
+                    _clearControllers();
                   }
                 },
                 builder: (context, state) {
