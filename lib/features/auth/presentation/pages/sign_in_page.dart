@@ -1,8 +1,12 @@
 // Flutter imports:
 import 'package:flutter/gestures.dart';
 
+// Package imports:
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 // Project imports:
 import 'package:blog_app/common.dart';
+import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_field.dart';
 import 'package:blog_app/features/auth/presentation/widgets/auth_gradient_button.dart';
 
@@ -30,6 +34,11 @@ class _SignInPageState extends State<SignInPage> with ValidationMixin {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+
+  void _clearControllers() {
+    _emailController.clear();
+    _passwordController.clear();
   }
 
   @override
@@ -63,9 +72,30 @@ class _SignInPageState extends State<SignInPage> with ValidationMixin {
                 validator: validatePassword,
               ),
               const SizedBox(height: 20.0),
-              AuthGradientButton(
-                text: 'Sign In',
-                onPressed: () {},
+              BlocConsumer<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state.status == AuthStatus.failure) {
+                    context.showMaterialSnackBar(state.error ?? '');
+                  } else if (state.status == AuthStatus.success) {
+                    _clearControllers();
+                  }
+                },
+                builder: (context, state) {
+                  if (state.status == AuthStatus.loading) {
+                    return const CircularProgressIndicator.adaptive();
+                  }
+                  return AuthGradientButton(
+                    text: 'Sign In',
+                    onPressed: () {
+                      context.read<AuthBloc>().add(
+                            AuthSignIn(
+                              email: _emailController.text.trim(),
+                              password: _passwordController.text.trim(),
+                            ),
+                          );
+                    },
+                  );
+                },
               ),
               const SizedBox(height: 20.0),
               RichText(

@@ -4,18 +4,60 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
 import 'package:blog_app/features/auth/domain/entities/user.dart';
+import 'package:blog_app/features/auth/domain/usecases/user_sign_in.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  final UserSignIn _userSignIn;
   final UserSignUp _userSignUp;
   AuthBloc({
     required UserSignUp userSignUp,
+    required UserSignIn userSignIn,
   })  : _userSignUp = userSignUp,
+        _userSignIn = userSignIn,
         super(AuthState.initial()) {
+    on<AuthSignIn>(_onAuthSignIn);
     on<AuthSignUp>(_onAuthSignUp);
+  }
+
+  Future<void> _onAuthSignIn(
+    AuthSignIn event,
+    Emitter<AuthState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(status: AuthStatus.loading));
+      final res = await _userSignIn(
+        UserSignInParams(
+          email: event.email,
+          password: event.password,
+        ),
+      );
+
+      res.fold(
+        (failure) => emit(
+          state.copyWith(
+            status: AuthStatus.failure,
+            error: failure.message,
+          ),
+        ),
+        (user) => emit(
+          state.copyWith(
+            status: AuthStatus.success,
+            user: user,
+          ),
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: AuthStatus.failure,
+          error: e.toString(),
+        ),
+      );
+    }
   }
 
   Future<void> _onAuthSignUp(
@@ -47,7 +89,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         ),
       );
     } catch (e) {
-      emit(state.copyWith(status: AuthStatus.failure));
+      emit(
+        state.copyWith(
+          status: AuthStatus.failure,
+          error: e.toString(),
+        ),
+      );
     }
   }
 }

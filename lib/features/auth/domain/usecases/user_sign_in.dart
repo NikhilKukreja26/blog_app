@@ -7,34 +7,30 @@ import 'package:blog_app/core/usecase/usecase.dart';
 import 'package:blog_app/features/auth/domain/entities/user.dart';
 import 'package:blog_app/features/auth/domain/repositories/auth_repository.dart';
 
-class UserSignUp implements UseCase<User, UserSignUpParams> {
+class UserSignIn implements UseCase<User, UserSignInParams> {
   final AuthRepository authRepository;
 
-  const UserSignUp({
+  const UserSignIn({
     required this.authRepository,
   });
   @override
-  Future<Either<Failure, User>> call(UserSignUpParams params) async {
-    return await authRepository.signUpWithEmailAndPassword(
-      name: params.name,
+  Future<Either<Failure, User>> call(UserSignInParams params) async {
+    return await authRepository.signInWithEmailAndPassword(
       email: params.email,
       password: params.password,
     );
   }
 }
 
-class UserSignUpParams {
-  final String name;
+class UserSignInParams {
   final String email;
   final String password;
 
-  const UserSignUpParams({
-    required this.name,
+  UserSignInParams({
     required this.email,
     required this.password,
   });
 
   @override
-  String toString() =>
-      'UserSignUpParams(name: $name, email: $email, password: $password)';
+  String toString() => 'UserSignInParams(email: $email, password: $password)';
 }
