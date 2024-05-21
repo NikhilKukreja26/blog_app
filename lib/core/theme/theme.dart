@@ -18,7 +18,7 @@ class AppTheme {
       backgroundColor: AppPalette.backgroundColor,
     ),
     chipTheme: const ChipThemeData(
-      color: MaterialStatePropertyAll(
+      color: WidgetStatePropertyAll(
         AppPalette.backgroundColor,
       ),
       side: BorderSide.none,
