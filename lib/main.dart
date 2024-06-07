@@ -1,9 +1,9 @@
 // Package imports:
-import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
 import 'package:blog_app/common.dart';
+import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/init_dependencies.dart';
 

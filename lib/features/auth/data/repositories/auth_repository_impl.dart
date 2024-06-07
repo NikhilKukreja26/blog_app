@@ -3,10 +3,10 @@ import 'package:fpdart/fpdart.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 // Project imports:
+import 'package:blog_app/core/entities/user.dart';
 import 'package:blog_app/core/error/exceptions.dart';
 import 'package:blog_app/core/error/failures.dart';
 import 'package:blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
-import 'package:blog_app/core/entities/user.dart';
 import 'package:blog_app/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {

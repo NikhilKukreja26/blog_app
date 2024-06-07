@@ -1,6 +1,9 @@
-import 'package:blog_app/core/entities/user.dart';
+// Package imports:
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+// Project imports:
+import 'package:blog_app/core/entities/user.dart';
 
 part 'app_user_state.dart';
 

@@ -1,17 +1,18 @@
 // ignore_for_file: directives_ordering
 
-// Package imports:
+// Dart imports:
 import 'dart:async';
 
-import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
-import 'package:blog_app/init_dependencies.dart';
+// Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 // Project imports:
 import 'package:blog_app/common.dart';
+import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:blog_app/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:blog_app/init_dependencies.dart';
 
 part 'routes.g.dart';
 
