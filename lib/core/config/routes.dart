@@ -1,6 +1,11 @@
 // ignore_for_file: directives_ordering
 
 // Package imports:
+import 'dart:async';
+
+import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:blog_app/init_dependencies.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 // Project imports:
@@ -12,8 +17,17 @@ part 'routes.g.dart';
 
 final GoRouter goRouter = GoRouter(
   debugLogDiagnostics: true,
+  refreshListenable:
+      GoRouterRefreshStream(serviceLocator<AppUserCubit>().stream),
   initialLocation: const SignInPageData().location,
   routes: $appRoutes,
+  redirect: (context, goRouterState) {
+    final state = context.read<AppUserCubit>().state;
+    if (state is AppUserLoggedIn) {
+      return const HomePageData().location;
+    }
+    return const SignInPageData().location;
+  },
 );
 
 @TypedGoRoute<SignInPageData>(
@@ -39,5 +53,39 @@ class SignUpPageData extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const SignUpPage();
+  }
+}
+
+@TypedGoRoute<HomePageData>(
+  path: '/home',
+  name: 'home',
+)
+class HomePageData extends GoRouteData {
+  const HomePageData();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const Scaffold(
+      body: Center(
+        child: Text('LoggedIn'),
+      ),
+    );
+  }
+}
+
+class GoRouterRefreshStream extends ChangeNotifier {
+  GoRouterRefreshStream(Stream<dynamic> stream) {
+    notifyListeners();
+    _subscription = stream.asBroadcastStream().listen(
+          (dynamic _) => notifyListeners(),
+        );
+  }
+
+  late final StreamSubscription<dynamic> _subscription;
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 }

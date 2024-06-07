@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // Project imports:
@@ -12,6 +13,9 @@ Future<void> main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider<AppUserCubit>(
+          create: (_) => serviceLocator<AppUserCubit>(),
+        ),
         BlocProvider<AuthBloc>(
           create: (_) => serviceLocator<AuthBloc>(),
         ),
@@ -21,18 +25,34 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthBloc>().add(const AuthIsUserLoggedIn());
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        title: 'Blog App',
-        theme: AppTheme.darkThemeMode,
-        routerConfig: goRouter,
+      child: BlocListener<AppUserCubit, AppUserState>(
+        listener: (context, state) {
+          // goRouter.refresh();
+        },
+        child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'Blog App',
+          theme: AppTheme.darkThemeMode,
+          routerConfig: goRouter,
+        ),
       ),
     );
   }

@@ -41,3 +41,7 @@ final class AuthSignUp extends AuthEvent {
         password,
       ];
 }
+
+final class AuthIsUserLoggedIn extends AuthEvent {
+  const AuthIsUserLoggedIn();
+}

@@ -1,4 +1,6 @@
 // Package imports:
+import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:blog_app/features/auth/domain/usecases/current_user.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -21,6 +23,9 @@ Future<void> initDependencies() async {
   );
 
   serviceLocator.registerLazySingleton<SupabaseClient>(() => supabase.client);
+
+  // core
+  serviceLocator.registerLazySingleton<AppUserCubit>(() => AppUserCubit());
 }
 
 void _init() {
@@ -44,10 +49,16 @@ void _init() {
     () => UserSignIn(authRepository: serviceLocator<AuthRepository>()),
   );
 
+  serviceLocator.registerFactory<CurrentUser>(
+    () => CurrentUser(authRepository: serviceLocator<AuthRepository>()),
+  );
+
   serviceLocator.registerLazySingleton<AuthBloc>(
     () => AuthBloc(
       userSignIn: serviceLocator<UserSignIn>(),
       userSignUp: serviceLocator<UserSignUp>(),
+      currentUser: serviceLocator<CurrentUser>(),
+      appUserCubit: serviceLocator<AppUserCubit>(),
     ),
   );
 }

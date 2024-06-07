@@ -2,7 +2,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 // Project imports:
-import 'package:blog_app/features/auth/domain/entities/user.dart';
+import 'package:blog_app/core/entities/user.dart';
 
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
