@@ -9,7 +9,7 @@ part of 'routes.dart';
 List<RouteBase> get $appRoutes => [
       $signInPageData,
       $signUpPageData,
-      $homePageData,
+      $blogPageData,
     ];
 
 RouteBase get $signInPageData => GoRouteData.$route(
@@ -60,17 +60,42 @@ extension $SignUpPageDataExtension on SignUpPageData {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $homePageData => GoRouteData.$route(
-      path: '/home',
-      name: 'home',
-      factory: $HomePageDataExtension._fromState,
+RouteBase get $blogPageData => GoRouteData.$route(
+      path: '/blog',
+      name: 'blog',
+      factory: $BlogPageDataExtension._fromState,
+      routes: [
+        GoRouteData.$route(
+          path: 'add-new-blog',
+          name: 'addNewBlog',
+          factory: $AddNewBlogPageDataExtension._fromState,
+        ),
+      ],
     );
 
-extension $HomePageDataExtension on HomePageData {
-  static HomePageData _fromState(GoRouterState state) => const HomePageData();
+extension $BlogPageDataExtension on BlogPageData {
+  static BlogPageData _fromState(GoRouterState state) => const BlogPageData();
 
   String get location => GoRouteData.$location(
-        '/home',
+        '/blog',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $AddNewBlogPageDataExtension on AddNewBlogPageData {
+  static AddNewBlogPageData _fromState(GoRouterState state) =>
+      const AddNewBlogPageData();
+
+  String get location => GoRouteData.$location(
+        '/blog/add-new-blog',
       );
 
   void go(BuildContext context) => context.go(location);

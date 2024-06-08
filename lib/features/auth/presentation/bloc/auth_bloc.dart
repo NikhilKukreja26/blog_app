@@ -28,6 +28,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _currentUser = currentUser,
         _appUserCubit = appUserCubit,
         super(AuthState.initial()) {
+    on<AuthEvent>(
+      (_, emit) => emit(
+        state.copyWith(status: AuthStatus.loading),
+      ),
+    );
     on<AuthSignIn>(_onAuthSignIn);
     on<AuthSignUp>(_onAuthSignUp);
     on<AuthIsUserLoggedIn>(_isUserLoggedIn);

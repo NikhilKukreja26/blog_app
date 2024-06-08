@@ -1,5 +1,6 @@
 // Package imports:
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // Project imports:
 import 'package:blog_app/common.dart';
@@ -46,12 +47,26 @@ class _MyAppState extends State<MyApp> {
       child: BlocListener<AppUserCubit, AppUserState>(
         listener: (context, state) {
           // goRouter.refresh();
+          // print('Listening');
+          // if (state is AppUserLoggedIn) {
+          //   const BlogPageData().go(rootNavigatorKey.currentState!.context);
+          // } else {
+          //   const SignInPageData().go(rootNavigatorKey.currentState!.context);
+          // }
         },
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: 'Blog App',
-          theme: AppTheme.darkThemeMode,
-          routerConfig: goRouter,
+        child: ScreenUtilInit(
+          designSize: MediaQuery.sizeOf(context),
+          ensureScreenSize: true,
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (_, __) {
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: 'Blog App',
+              theme: AppTheme.darkThemeMode,
+              routerConfig: goRouter,
+            );
+          },
         ),
       ),
     );
