@@ -22,4 +22,18 @@ mixin ValidationMixin {
     }
     return null;
   }
+
+  String? validateTitle(String? value) {
+    if (value.isNullOrEmpty) {
+      return AppStrings.pleaseEnterTheTitle;
+    }
+    return null;
+  }
+
+  String? validateContent(String? value) {
+    if (value.isNullOrEmpty) {
+      return AppStrings.pleaseEnterTheContent;
+    }
+    return null;
+  }
 }

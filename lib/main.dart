@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:blog_app/common.dart';
 import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:blog_app/init_dependencies.dart';
 
 Future<void> main() async {
@@ -19,6 +20,9 @@ Future<void> main() async {
         ),
         BlocProvider<AuthBloc>(
           create: (_) => serviceLocator<AuthBloc>(),
+        ),
+        BlocProvider<BlogBloc>(
+          create: (_) => serviceLocator<BlogBloc>(),
         ),
       ],
       child: const MyApp(),

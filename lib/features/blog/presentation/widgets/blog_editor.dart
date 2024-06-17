@@ -6,10 +6,12 @@ class BlogEditor extends StatelessWidget {
     super.key,
     required this.controller,
     required this.hintText,
+    this.validator,
   });
 
   final TextEditingController controller;
   final String hintText;
+  final String? Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class BlogEditor extends StatelessWidget {
         hintText: hintText,
       ),
       maxLines: null,
+      validator: validator,
     );
   }
 }

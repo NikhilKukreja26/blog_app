@@ -96,3 +96,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }
   }
 }
+
+abstract interface class Shape {
+  double calculateArea();
+}
+
+class Circle implements Shape {
+  @override
+  double calculateArea() {
+    throw UnimplementedError();
+  }
+}

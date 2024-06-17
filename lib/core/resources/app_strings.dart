@@ -12,6 +12,8 @@ class AppStrings {
   static const String pleaseEnterTheName = 'Please enter the name';
   static const String pleaseEnterTheEmail = 'Please enter the email';
   static const String pleaseEnterThePassword = 'Please enter the password';
+  static const String pleaseEnterTheTitle = 'Please enter the title';
+  static const String pleaseEnterTheContent = 'Please enter the content';
 
   // Errors
   static const String userIsNull = 'User is null!';

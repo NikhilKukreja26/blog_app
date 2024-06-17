@@ -12,11 +12,17 @@ import 'package:blog_app/features/auth/domain/usecases/current_user.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_in.dart';
 import 'package:blog_app/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:blog_app/features/blog/data/datasources/blog_remote_data_source.dart';
+import 'package:blog_app/features/blog/data/repositories/blog_repository_impl.dart';
+import 'package:blog_app/features/blog/domain/repositories/blog_repository.dart';
+import 'package:blog_app/features/blog/domain/usecases/upload_blog.dart';
+import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
 
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
-  _init();
+  _initAuth();
+  _initBlog();
   final supabase = await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonKey,
@@ -28,7 +34,7 @@ Future<void> initDependencies() async {
   serviceLocator.registerLazySingleton<AppUserCubit>(() => AppUserCubit());
 }
 
-void _init() {
+void _initAuth() {
   serviceLocator.registerFactory<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(
       supabaseClient: serviceLocator<SupabaseClient>(),
@@ -59,6 +65,34 @@ void _init() {
       userSignUp: serviceLocator<UserSignUp>(),
       currentUser: serviceLocator<CurrentUser>(),
       appUserCubit: serviceLocator<AppUserCubit>(),
+    ),
+  );
+}
+
+void _initBlog() {
+  // DataSource
+  serviceLocator.registerFactory<BlogRemoteDataSource>(
+    () => BlogRemoteDataSourceImpl(
+      supabaseClient: serviceLocator<SupabaseClient>(),
+    ),
+  );
+
+  // Repository
+  serviceLocator.registerFactory<BlogRepository>(
+    () => BlogRepositoryImpl(
+      blogRemoteDataSource: serviceLocator<BlogRemoteDataSource>(),
+    ),
+  );
+
+  // UseCases
+  serviceLocator.registerFactory<UploadBlog>(
+    () => UploadBlog(blogRepository: serviceLocator<BlogRepository>()),
+  );
+
+  // Bloc/Cubit
+  serviceLocator.registerLazySingleton<BlogBloc>(
+    () => BlogBloc(
+      uploadBlog: serviceLocator<UploadBlog>(),
     ),
   );
 }
