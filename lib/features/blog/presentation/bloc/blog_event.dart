@@ -38,3 +38,7 @@ final class BlogUploadBlogToDatabase extends BlogEvent {
     ];
   }
 }
+
+final class BlogFetchAllBlogs extends BlogEvent {
+  const BlogFetchAllBlogs();
+}

@@ -34,6 +34,7 @@ mixin _$BlogModel {
   List<String> get topics => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
   DateTime get updatedAt => throw _privateConstructorUsedError;
+  String? get posterName => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,7 +54,8 @@ abstract class $BlogModelCopyWith<$Res> {
       @JsonKey(name: 'content') String content,
       @JsonKey(name: 'image_url') String imageUrl,
       @JsonKey(name: 'topics') List<String> topics,
-      @JsonKey(name: 'updated_at') DateTime updatedAt});
+      @JsonKey(name: 'updated_at') DateTime updatedAt,
+      String? posterName});
 }
 
 /// @nodoc
@@ -76,6 +78,7 @@ class _$BlogModelCopyWithImpl<$Res, $Val extends BlogModel>
     Object? imageUrl = null,
     Object? topics = null,
     Object? updatedAt = null,
+    Object? posterName = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -106,6 +109,10 @@ class _$BlogModelCopyWithImpl<$Res, $Val extends BlogModel>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      posterName: freezed == posterName
+          ? _value.posterName
+          : posterName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -125,7 +132,8 @@ abstract class _$$BlogModelImplCopyWith<$Res>
       @JsonKey(name: 'content') String content,
       @JsonKey(name: 'image_url') String imageUrl,
       @JsonKey(name: 'topics') List<String> topics,
-      @JsonKey(name: 'updated_at') DateTime updatedAt});
+      @JsonKey(name: 'updated_at') DateTime updatedAt,
+      String? posterName});
 }
 
 /// @nodoc
@@ -146,6 +154,7 @@ class __$$BlogModelImplCopyWithImpl<$Res>
     Object? imageUrl = null,
     Object? topics = null,
     Object? updatedAt = null,
+    Object? posterName = freezed,
   }) {
     return _then(_$BlogModelImpl(
       id: null == id
@@ -176,6 +185,10 @@ class __$$BlogModelImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      posterName: freezed == posterName
+          ? _value.posterName
+          : posterName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -190,7 +203,8 @@ class _$BlogModelImpl implements _BlogModel {
       @JsonKey(name: 'content') required this.content,
       @JsonKey(name: 'image_url') required this.imageUrl,
       @JsonKey(name: 'topics') required final List<String> topics,
-      @JsonKey(name: 'updated_at') required this.updatedAt})
+      @JsonKey(name: 'updated_at') required this.updatedAt,
+      this.posterName})
       : _topics = topics;
 
   factory _$BlogModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -223,10 +237,12 @@ class _$BlogModelImpl implements _BlogModel {
   @override
   @JsonKey(name: 'updated_at')
   final DateTime updatedAt;
+  @override
+  final String? posterName;
 
   @override
   String toString() {
-    return 'BlogModel(id: $id, posterId: $posterId, title: $title, content: $content, imageUrl: $imageUrl, topics: $topics, updatedAt: $updatedAt)';
+    return 'BlogModel(id: $id, posterId: $posterId, title: $title, content: $content, imageUrl: $imageUrl, topics: $topics, updatedAt: $updatedAt, posterName: $posterName)';
   }
 
   @override
@@ -243,13 +259,23 @@ class _$BlogModelImpl implements _BlogModel {
                 other.imageUrl == imageUrl) &&
             const DeepCollectionEquality().equals(other._topics, _topics) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.posterName, posterName) ||
+                other.posterName == posterName));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, posterId, title, content,
-      imageUrl, const DeepCollectionEquality().hash(_topics), updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      posterId,
+      title,
+      content,
+      imageUrl,
+      const DeepCollectionEquality().hash(_topics),
+      updatedAt,
+      posterName);
 
   @JsonKey(ignore: true)
   @override
@@ -267,14 +293,14 @@ class _$BlogModelImpl implements _BlogModel {
 
 abstract class _BlogModel implements BlogModel {
   const factory _BlogModel(
-          {@JsonKey(name: 'id') required final String id,
-          @JsonKey(name: 'poster_id') required final String posterId,
-          @JsonKey(name: 'title') required final String title,
-          @JsonKey(name: 'content') required final String content,
-          @JsonKey(name: 'image_url') required final String imageUrl,
-          @JsonKey(name: 'topics') required final List<String> topics,
-          @JsonKey(name: 'updated_at') required final DateTime updatedAt}) =
-      _$BlogModelImpl;
+      {@JsonKey(name: 'id') required final String id,
+      @JsonKey(name: 'poster_id') required final String posterId,
+      @JsonKey(name: 'title') required final String title,
+      @JsonKey(name: 'content') required final String content,
+      @JsonKey(name: 'image_url') required final String imageUrl,
+      @JsonKey(name: 'topics') required final List<String> topics,
+      @JsonKey(name: 'updated_at') required final DateTime updatedAt,
+      final String? posterName}) = _$BlogModelImpl;
 
   factory _BlogModel.fromJson(Map<String, dynamic> json) =
       _$BlogModelImpl.fromJson;
@@ -300,6 +326,8 @@ abstract class _BlogModel implements BlogModel {
   @override
   @JsonKey(name: 'updated_at')
   DateTime get updatedAt;
+  @override
+  String? get posterName;
   @override
   @JsonKey(ignore: true)
   _$$BlogModelImplCopyWith<_$BlogModelImpl> get copyWith =>

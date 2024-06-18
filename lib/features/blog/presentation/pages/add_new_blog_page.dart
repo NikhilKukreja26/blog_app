@@ -93,8 +93,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> with ValidationMixin {
                   backgroundColor: context.error,
                 ),
               );
-            } else if (state is BlogSuccess) {
-              // context.pop();
+            } else if (state is BlogUploadSuccess) {
               const BlogPageData().go(context);
             }
           },

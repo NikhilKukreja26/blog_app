@@ -17,6 +17,7 @@ class BlogModel with _$BlogModel implements Blog {
     @JsonKey(name: 'image_url') required String imageUrl,
     @JsonKey(name: 'topics') required List<String> topics,
     @JsonKey(name: 'updated_at') required DateTime updatedAt,
+    String? posterName,
   }) = _BlogModel;
 
   factory BlogModel.fromJson(Map<String, dynamic> json) =>

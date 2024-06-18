@@ -13,8 +13,22 @@ final class BlogLoading extends BlogState {
   const BlogLoading();
 }
 
-final class BlogSuccess extends BlogState {
-  const BlogSuccess();
+final class BlogUploadSuccess extends BlogState {
+  const BlogUploadSuccess();
+}
+
+final class BlogDisplaySuccess extends BlogState {
+  final List<Blog> blogs;
+
+  const BlogDisplaySuccess({
+    required this.blogs,
+  });
+
+  @override
+  String toString() => 'BlogDisplaySuccess(blogs: $blogs)';
+
+  @override
+  List<Object> get props => [blogs];
 }
 
 final class BlogFailure extends BlogState {

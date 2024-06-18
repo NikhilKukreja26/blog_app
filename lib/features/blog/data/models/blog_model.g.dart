@@ -16,6 +16,7 @@ _$BlogModelImpl _$$BlogModelImplFromJson(Map<String, dynamic> json) =>
       topics:
           (json['topics'] as List<dynamic>).map((e) => e as String).toList(),
       updatedAt: DateTime.parse(json['updated_at'] as String),
+      posterName: json['posterName'] as String?,
     );
 
 Map<String, dynamic> _$$BlogModelImplToJson(_$BlogModelImpl instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$$BlogModelImplToJson(_$BlogModelImpl instance) =>
       'image_url': instance.imageUrl,
       'topics': instance.topics,
       'updated_at': instance.updatedAt.toIso8601String(),
+      // 'posterName': instance.posterName,
     };
