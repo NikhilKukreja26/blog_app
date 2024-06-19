@@ -70,6 +70,11 @@ RouteBase get $blogPageData => GoRouteData.$route(
           name: 'addNewBlog',
           factory: $AddNewBlogPageDataExtension._fromState,
         ),
+        GoRouteData.$route(
+          path: 'blog-details',
+          name: 'blogDetails',
+          factory: $BlogViewerDataExtension._fromState,
+        ),
       ],
     );
 
@@ -96,6 +101,24 @@ extension $AddNewBlogPageDataExtension on AddNewBlogPageData {
 
   String get location => GoRouteData.$location(
         '/blog/add-new-blog',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $BlogViewerDataExtension on BlogViewerData {
+  static BlogViewerData _fromState(GoRouterState state) =>
+      const BlogViewerData();
+
+  String get location => GoRouteData.$location(
+        '/blog/blog-details',
       );
 
   void go(BuildContext context) => context.go(location);

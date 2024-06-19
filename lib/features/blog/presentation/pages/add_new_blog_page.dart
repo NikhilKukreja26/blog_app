@@ -11,6 +11,7 @@ import 'package:blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:blog_app/core/utils/pick_image.dart';
 import 'package:blog_app/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:blog_app/features/blog/presentation/widgets/blog_editor.dart';
+import 'package:go_router/go_router.dart';
 
 class AddNewBlogPage extends StatefulWidget {
   const AddNewBlogPage({super.key});
@@ -94,7 +95,8 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> with ValidationMixin {
                 ),
               );
             } else if (state is BlogUploadSuccess) {
-              const BlogPageData().go(context);
+              context.pop();
+              // const BlogPageData().go(context);
             }
           },
           builder: (context, state) {

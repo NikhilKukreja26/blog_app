@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:blog_app/features/blog/presentation/widgets/blog_card.dart';
 import 'package:flutter/cupertino.dart';
 
 // Package imports:
@@ -65,10 +66,14 @@ class _BlogPageState extends State<BlogPage> {
           if (state is BlogDisplaySuccess) {
             return ListView.builder(
               itemCount: state.blogs.length,
-              shrinkWrap: true,
               itemBuilder: (_, int index) {
                 final blog = state.blogs[index];
-                return Text(blog.title);
+                return BlogCard(
+                  blog: blog,
+                  color: index.isEven
+                      ? AppPalette.gradient1
+                      : AppPalette.gradient2,
+                );
               },
             );
           }

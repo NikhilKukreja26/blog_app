@@ -4,6 +4,8 @@
 import 'dart:async';
 
 // Package imports:
+import 'package:blog_app/features/blog/domain/entities/blog.dart';
+import 'package:blog_app/features/blog/presentation/pages/blog_viewer_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -88,6 +90,10 @@ class SignUpPageData extends GoRouteData {
       path: 'add-new-blog',
       name: 'addNewBlog',
     ),
+    TypedGoRoute<BlogViewerData>(
+      path: 'blog-details',
+      name: 'blogDetails',
+    ),
   ],
 )
 class BlogPageData extends GoRouteData {
@@ -95,7 +101,9 @@ class BlogPageData extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return const BlogPage();
+    return const BlogPage(
+        // key: UniqueKey(),
+        );
   }
 }
 
@@ -105,6 +113,17 @@ class AddNewBlogPageData extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const AddNewBlogPage();
+  }
+}
+
+class BlogViewerData extends GoRouteData {
+  const BlogViewerData();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return BlogViewerPage(
+      blog: state.extra! as Blog,
+    );
   }
 }
 
