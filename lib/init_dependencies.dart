@@ -1,5 +1,10 @@
 // Package imports:
+import 'package:blog_app/core/network/connection_checker.dart';
+import 'package:blog_app/features/blog/data/datasources/blog_local_data_source.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 // Project imports:
@@ -29,6 +34,10 @@ Future<void> initDependencies() async {
     anonKey: AppSecrets.supabaseAnonKey,
   );
 
+  Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
+
+  serviceLocator.registerLazySingleton<Box>(() => Hive.box(name: 'blogs'));
+
   serviceLocator.registerLazySingleton<SupabaseClient>(() => supabase.client);
 
   // core
@@ -42,9 +51,19 @@ void _initAuth() {
     ),
   );
 
+  serviceLocator
+      .registerFactory<InternetConnection>(() => InternetConnection());
+
+  serviceLocator.registerFactory<ConnectionChecker>(
+    () => ConnectionCheckerImpl(
+      internetConnection: serviceLocator<InternetConnection>(),
+    ),
+  );
+
   serviceLocator.registerFactory<AuthRepository>(
     () => AuthRepositoryImpl(
       authRemoteDataSource: serviceLocator<AuthRemoteDataSource>(),
+      connectionChecker: serviceLocator<ConnectionChecker>(),
     ),
   );
 
@@ -78,10 +97,19 @@ void _initBlog() {
     ),
   );
 
+  // Local DataSource
+  serviceLocator.registerFactory<BlogLocalDataSource>(
+    () => BlogLocalDataSourceImpl(
+      box: serviceLocator<Box>(),
+    ),
+  );
+
   // Repository
   serviceLocator.registerFactory<BlogRepository>(
     () => BlogRepositoryImpl(
       blogRemoteDataSource: serviceLocator<BlogRemoteDataSource>(),
+      blogLocalDataSource: serviceLocator<BlogLocalDataSource>(),
+      connectionChecker: serviceLocator<ConnectionChecker>(),
     ),
   );
 
